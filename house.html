@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="house flex flex-col items-center w-full">
+    <nav class="flex justify-between items-center w-full">
+        <div class="ml-10">
+            <a href="/dash">
+                <h1 class="text-2xl">Homely Homes</h1>
+            </a>
+        </div>
+        <div class="invisible nav-options sm:visible flex">
+            <div class="mr-5">
+                <a href="/dash/house/create" class="hover:text-slate-900 transition duration-300">Add house</a>
+            </div>
+            <div class="mr-5">
+                <a href="/dash/rent_records" class="hover:text-slate-900 transition duration-300">Rent Records</a>
+            </div>
+            <div class="mr-5">
+                <a href="/dash/tenants" class="hover:text-slate-900 transition duration-300">Tenants Records</a>
+            </div>
+        </div>
+    </nav>
+    <div>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="text-white" {% endif %}>{{ message }}</li>
+                {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <div class="detail flex flex-col items-center sm:flex-row sm:justify-evenly w-full my-10">
+        <h1>House No.: {{house.number}}</h1>
+        <p>Rent: {{house.rent}}</p>
+        {% if house.tenant %}
+            <p>{{house.tenant}}</p>
+        {% endif %}
+        <a href="/dash/house/delete/{{house.id}}">delete</a>
+    </div>
+    <div class="edit bg-slate-900 rounded-lg p-2">
+        <h1>Change house Info</h1>
+        <form action="#" method="POST">
+            {% csrf_token %}
+        
+            <div class="xl:flex xl:flex-row">
+                {% for field in edit_house_form %}
+                <div class="field flex flex-col m-3">
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }}
+                    {% if field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <button class="bg-slate-800 my-5 mx-3 p-2 rounded-lg hover:scale-110 transition ease-in duration-200" type="submit">Edit House Information</button>
+        </form>
+    </div>
+    <div class="rent-records mt-16 w-full flex flex-col items-center">
+        <div class="create bg-slate-900 rounded-lg p-2 w-1/2">
+            <h1>Create Rent Record</h1>
+            <form action="/dash/house/{{house.id}}/rent_records" method="POST">
+                {% csrf_token %}
+            
+                <div class="xl:flex xl:flex-row">
+                    {% for field in create_rent_record_form %}
+                    <div class="field flex flex-col m-3">
+                        {{ field.errors }}
+                        {{ field.label_tag }} {{ field }}
+                        {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="bg-slate-800 my-5 mx-3 p-2 rounded-lg hover:scale-110 transition ease-in duration-200"
+                    type="submit">Create Rent Record</button>
+            </form>
+        </div>
+        {% if rent_records %}
+        <div class="records mt-16 w-full">
+            <h1 class="text-2xl m-10">Rent records for house {{house.number}}</h1>
+            <table class="table-auto w-full">
+                <thead>
+                    <tr>
+                        <th>House</th>
+                        <th>Amount paid</th>
+                        <th>Balance</th>
+                        <th>Confirmation code</th>
+                        <th>Date</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in rent_records %}
+                    <tr>
+                        <td>{{record.house}}</td>
+                        <td>{{record.amount_paid}}</td>
+                        <td>{{record.balance}}</td>
+                        <td>{{record.confirmation_code}}</td>
+                        <td>{{record.payment_date}}</td>
+                        <td>
+                            <a href="/dash/rent_record/delete/{{record.id}}">delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

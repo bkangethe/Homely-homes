@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="flex flex-col items-center">
+    <nav class="flex justify-between items-center w-full">
+        <div class="ml-10">
+            <a href="/dash">
+                <h1 class="text-2xl">Homely Homes</h1>
+            </a>
+        </div>
+        <div class="invisible nav-options sm:visible flex">
+            <div class="mr-5">
+                <a href="/dash/house/create" class="hover:text-slate-900 transition duration-300">Add house</a>
+            </div>
+            <div class="mr-5">
+                <a href="/dash/rent_records" class="hover:text-slate-900 transition duration-300">Rent Records</a>
+            </div>
+            <div class="mr-5">
+                <a href="/dash/tenants" class="hover:text-slate-900 transition duration-300">Tenants Records</a>
+            </div>
+        </div>
+    </nav>
+    <div class='bg-slate-900 rounded-lg p-2 w-1/2 mt-16'>
+        <h1>Register Issue</h1>
+        <form action="#" method="POST" class="mt-5">
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="field flex flex-col">
+                {{ field.errors }}
+                {{ field.label_tag }} {{ field }}
+                {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit"
+                class="bg-slate-800 my-5 mx-3 p-2 rounded-lg hover:scale-110 transition ease-in duration-200">
+                Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

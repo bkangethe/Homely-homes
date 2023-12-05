@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="p-2">
+
+    <nav class="flex justify-between items-center">
+        <div class="ml-10">
+            <a href="/dash">
+                <h1 class="text-2xl">Homely Homes</h1>
+            </a>
+        </div>
+        <div class="invisible nav-options sm:visible flex">
+            <div class="mr-5">
+                <a href="/dash/house/create" class="hover:text-slate-900 transition duration-300">Add house</a>
+            </div>
+            <div class="mr-5">
+                <a href="/dash/rent_records" class="hover:text-slate-900 transition duration-300">Rent Records</a>
+            </div>
+            <div class="mr-5">
+                <a href="/dash/tenants" class="hover:text-slate-900 transition duration-300">Tenants Records</a>
+            </div>
+            <div class="mr-5">
+                <a href="/dash/issue" class="hover:text-slate-900 transition duration-300"> Issues</a>
+            </div>
+            <div class="mr-5">
+                <a href="/dash/logout" class="hover:text-slate-900 transition duration-300">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="grid grid-cols-2 gap-10 houses sm:flex sm:flex-wrap sm:flex-row w-full justify-between mt-16 p-10">
+        {% for house in houses %}
+        <a href="/dash/house/{{house.id}}" class="w-5/6 sm:w-1/4">
+            <div class="rounded-lg bg-slate-800 flex flex-col items-center justify-center group house cursor-pointer">
+                <i class="uil uil-home group-hover:animate-bounce"></i>
+                <p>{{house.number}}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

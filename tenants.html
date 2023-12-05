@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="m-10">
+    <nav class="flex justify-between items-center">
+        <div class="ml-10">
+            <a href="/dash">
+                <h1 class="text-2xl">Homely Homes</h1>
+            </a>
+        </div>
+        <div class="invisible nav-options sm:visible flex">
+            <div class="mr-5">
+                <a href="/dash/house/create" class="hover:text-slate-900 transition duration-300">Add house</a>
+            </div>
+            <div class="mr-5">
+                <a href="/dash/rent_records" class="hover:text-slate-900 transition duration-300">Rent Records</a>
+            </div>
+            <div class="mr-5">
+                <a href="/dash/tenants" class="hover:text-slate-900 transition duration-300">Tenants Records</a>
+            </div>
+            <div class="mr-5">
+                <a href="/dash/tenant/create" class="hover:text-slate-900 transition duration-300">Add Tenant</a>
+            </div>
+        </div>
+    </nav>
+    <table class="table-auto w-full">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tenant in tenants %}
+            <tr>
+                <td>{{tenant.name}}</td>
+                <td>{{tenant.email}}</td>
+                <td>{{tenant.phone_number}}</td>
+                <td>
+                    <a href="/dash/tenant/delete/{{tenant.id}}">delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
